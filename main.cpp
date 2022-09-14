@@ -1,8 +1,17 @@
 #include <stdio.h>
 #include "IO/io.h"
 #include <assert.h>
+#include <cstdlib>
+#include "string/string.h"
 
 const char *file_path = "resources/gamlet.txt";
+
+int str_cmp(char **a, char **b) {
+    if (KR_strcmp_letonly(*a, *b)) {
+        return -1;
+    }
+    return +1;
+}
 
 int main() {
     char *buff = nullptr;
@@ -13,6 +22,11 @@ int main() {
     char **text = nullptr;
 
     int text_size = buff_to_text(&text, buff, buff_size);
-    
-    printf("%s\n", text[text_size - 1]);
+
+    qsort(text, text_size, sizeof(char*), (int (*)(const void*, const void*))str_cmp);
+
+    FILE * outfile = fopen("resources/gamletsort.txt", "wb");
+    for (int i = 0; i < text_size; i++) {
+        fprintf(outfile, "%s\n", text[i]);
+    }
 }
