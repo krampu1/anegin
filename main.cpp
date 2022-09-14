@@ -25,8 +25,11 @@ int main() {
 
     qsort(text, text_size, sizeof(char*), (int (*)(const void*, const void*))str_cmp);
 
-    FILE * outfile = fopen("resources/gamletsort.txt", "wb");
+    FILE * ptrfileout = fopen("resources/gamletsort.txt", "wb");
+
+    assert(ptrfileout != nullptr);
+
     for (int i = 0; i < text_size; i++) {
-        fprintf(outfile, "%s\n", text[i]);
+        fprintf(ptrfileout, "%s\n", text[i]);
     }
 }

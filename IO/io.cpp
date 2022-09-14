@@ -7,17 +7,25 @@
 int get_data_file(char **buff, const char *file_path) {
     assert(file_path != nullptr);
 
+
     FILE * ptrFile = fopen(file_path, "rb");
     assert(ptrFile != nullptr);
+
 
     struct stat fileinfo;
     fstat(fileno(ptrFile), &fileinfo);
     
+
     *buff = (char *)calloc(fileinfo.st_size + 2, sizeof(char));
+
+    assert(buff != nullptr);
+
     fread(*buff, sizeof(char), fileinfo.st_size, ptrFile);
     (*buff)[fileinfo.st_size + 1] = (*buff)[fileinfo.st_size] = 0;
 
+
     fclose(ptrFile);
+
 
     return fileinfo.st_size;
 }
@@ -32,6 +40,9 @@ int buff_to_text(char ***text, char *buff, int buff_size) {
     }
 
     *text = (char **)calloc(text_size + 1, sizeof(char *));
+    
+    assert(text != nullptr);
+
     (*text)[text_size] = nullptr;
 
     (*text)[0] = buff;
