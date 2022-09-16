@@ -7,6 +7,8 @@
 #include <assert.h>
 
 size_t get_file_size(FILE * ptr_file) {
+    assert(ptr_file != nullptr);
+    
     struct stat fileinfo = {};
     fstat(fileno(ptr_file), &fileinfo);
 
@@ -57,7 +59,7 @@ size_t buff_to_text(KR_string **text, char *buff, size_t buff_size) {
 
     ((*text)[text_size]).ptr = nullptr;
 
-    (*text)[0].ptr = buff;
+    ((*text)[0]).ptr = buff;
     
     size_t ptr = 1;
 
