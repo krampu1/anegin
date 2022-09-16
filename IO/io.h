@@ -1,9 +1,14 @@
-int get_data_file(char **buff, const char *file_name);
+#ifndef IO
+#define IO
 
-int buff_to_text(char ***text, char *buff, int buff_size);
+size_t get_data_file(char **buff, const char *file_name);
 
-void get_file_name_from_flug(int argc, char *argv[], char **file_path);
+size_t buff_to_text(char ***text, char *buff, size_t buff_size);
 
-void fprintf_buff(FILE *ptrfileout, char *buff, int buff_size);
+void get_file_name_from_flug(const char **file_path, int argc, char *argv[]);
 
-int get_text_file(char ***text, char **buff, int *buff_size, const char *file_path);
+void fprintf_buff(FILE *ptrfileout, char *buff, size_t buff_size);
+
+size_t get_text_file(char ***text, char **buff, size_t *buff_size, const char *file_path);
+
+#endif

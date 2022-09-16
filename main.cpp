@@ -21,27 +21,27 @@ int str_cmp_r(const void *a, const void *b) {
     return KR_strcmp_letonly_rev(*((char **)a), *((char **)b));
 }
 
-void fprintf_text(FILE *ptrfileout, char **text, int text_size) {
+void fprintf_text(FILE *ptrfileout, char **text, size_t text_size) {
     assert(ptrfileout != nullptr);
     assert(text != nullptr);
-    
-    for (int i = 0; i < text_size; i++) {
+
+    for (size_t i = 0; i < text_size; i++) {
         fprintf(ptrfileout, "%s\n", text[i]);
     }
 }
 
 int main(int argc, char *argv[]) {
-    char *file_out_path = (char *)file_path;
+    const char *file_out_path = file_path;
 
-    get_file_name_from_flug(argc, argv, &file_out_path);
+    get_file_name_from_flug(&file_out_path, argc, argv);
 
     assert(file_out_path != nullptr);
 
-    int   buff_size = 0;
+    size_t buff_size = 0;
     char *buff  = nullptr;
     char **text = nullptr;
 
-    int text_size = get_text_file(&text, &buff, &buff_size, file_path);
+    size_t text_size = get_text_file(&text, &buff, &buff_size, file_path);
 
     assert(text != nullptr);
     assert(buff != nullptr);

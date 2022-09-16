@@ -148,7 +148,7 @@ char * KR_strdup(char *s) {
     assert(s != nullptr);
 
     char *p = nullptr;
-    p = (char *) malloc(KR_strlen(s) + 1);
+    p = (char *) calloc(KR_strlen(s) + 1, sizeof(char));
 
     KR_strcpy(p, s);
 
