@@ -15,6 +15,12 @@ int str_cmp_r(const void *a, const void *b) {
     return KR_strcmp_letonly_r(*((char **)a), *((char **)b));
 }
 
+void fprintf_text(FILE *ptrfileout, char **text, int text_size) {
+    for (int i = 0; i < text_size; i++) {
+        fprintf(ptrfileout, "%s\n", text[i]);
+    }
+}
+
 int main() {
     char *buff = nullptr;
     int buff_size = get_data_file(&buff, file_path);
@@ -31,19 +37,16 @@ int main() {
 
     assert(ptrfileout != nullptr);
 
-    for (int i = 0; i < text_size; i++) {
-        fprintf(ptrfileout, "%s\n", text[i]);
-    }
+    fprintf_text(ptrfileout, text, text_size);
+    
 
-    fprintf(ptrfileout, "------------------------------begin string reverse comporator sort----------------------------");
+    fprintf(ptrfileout, "------------------------------begin string reverse comporator sort----------------------------\n");
 
     KR_qsort(text, text_size, sizeof(char*), (int (*)(const void*, const void*))str_cmp_r);
 
-    for (int i = 0; i < text_size; i++) {
-        fprintf(ptrfileout, "%s\n", text[i]);
-    }
+    fprintf_text(ptrfileout, text, text_size);
 
-    fprintf(ptrfileout, "------------------------------------------source text-----------------------------------------");
+    fprintf(ptrfileout, "------------------------------------------source text-----------------------------------------\n");
 
     for (int i = 0; i < buff_size; i++) {
         if (buff[i] == '\0') {

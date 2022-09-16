@@ -46,8 +46,14 @@ void KR_qsort(void *data, int data_size, int element_size, int (* cmp) (const vo
             l++;
         }
     }
-    if (l != 0 && l != data_size){
+    if (l != data_size){
         KR_qsort(data, l, element_size, cmp);
         KR_qsort((char *)data + l * element_size, data_size - l, element_size, cmp);
+    }
+    else {
+        KR_swap_data((char *)data + m                                     * element_size, 
+                     (char *)data + (data_size - 1 /*последний элемент*/) * element_size,
+                     element_size);
+        KR_qsort(data, data_size - 1, element_size, cmp);
     }
 }
