@@ -30,13 +30,13 @@ char * KR_fgets(char *s, int n, FILE *iop);
 char * KR_strdup(      char *s);
 char * KR_strdup(const char *s);
 
-bool KR_strcmp(char *s1, char *s2);
+int KR_strcmp(char *s1, char *s2);
 
 bool is_letter(char ch);
 
-bool KR_strcmp_letonly(char *s1, char *s2);
+int KR_strcmp_letonly(char *s1, char *s2);
 
-bool KR_strcmp_letonly_r(char *s1, char *s2);
+int KR_strcmp_letonly_r(char *s1, char *s2);
 
 void KR_strswap(char **s1, char **s2);
 

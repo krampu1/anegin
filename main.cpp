@@ -8,17 +8,11 @@
 const char *file_path = "resources/gamlet.txt";
 
 int str_cmp(const void *a, const void *b) {
-    if (KR_strcmp_letonly(*((char **)a), *((char **)b))) {
-        return -1;
-    }
-    return +1;
+    return KR_strcmp_letonly(*((char **)a), *((char **)b));
 }
 
 int str_cmp_r(const void *a, const void *b) {
-    if (KR_strcmp_letonly_r(*((char **)a), *((char **)b))) {
-        return -1;
-    }
-    return 1;
+    return KR_strcmp_letonly_r(*((char **)a), *((char **)b));
 }
 
 int main() {
@@ -31,7 +25,7 @@ int main() {
 
     int text_size = buff_to_text(&text, buff, buff_size);
 
-    KR_sort(text, text_size, sizeof(char*), (int (*)(const void*, const void*))str_cmp);
+    KR_qsort(text, text_size, sizeof(char*), (int (*)(const void*, const void*))str_cmp);
 
     FILE * ptrfileout = fopen("resources/gamletsort.txt", "wb");
 
@@ -43,7 +37,7 @@ int main() {
 
     fprintf(ptrfileout, "------------------------------begin string reverse comporator sort----------------------------");
 
-    KR_sort(text, text_size, sizeof(char*), (int (*)(const void*, const void*))str_cmp_r);
+    KR_qsort(text, text_size, sizeof(char*), (int (*)(const void*, const void*))str_cmp_r);
 
     for (int i = 0; i < text_size; i++) {
         fprintf(ptrfileout, "%s\n", text[i]);

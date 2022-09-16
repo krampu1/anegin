@@ -166,7 +166,7 @@ char * KR_strdup(const char *s) {
     return p;
 }
 
-bool KR_strcmp(char *s1, char *s2) {
+int KR_strcmp(char *s1, char *s2) {
     assert(s1 != nullptr);
     assert(s2 != nullptr);
 
@@ -174,13 +174,13 @@ bool KR_strcmp(char *s1, char *s2) {
     do {
         i++;
         if (s1[i] < s2[i]) {
-            return true;
+            return -1;
         }
         else if (s1[i] > s2[i]) {
-            return false;
+            return 1;
         }
     } while (s1[i] != 0 && s2[i] != 0);
-    return true;
+    return 0;
 }
 
 bool is_letter(char ch) {
@@ -189,7 +189,7 @@ bool is_letter(char ch) {
              || ch == 0); 
 }
 
-bool KR_strcmp_letonly(char *s1, char *s2) {
+int KR_strcmp_letonly(char *s1, char *s2) {
     assert(s1 != nullptr);
     assert(s2 != nullptr);
     
@@ -198,16 +198,16 @@ bool KR_strcmp_letonly(char *s1, char *s2) {
         while (!is_letter(*s2)) s2++;
 
         if (*s1 < *s2) {
-            return true;
+            return -1;
         }
         else if (*s1 > *s2) {
-            return false;
+            return +1;
         }
     } while (*s1++ != 0 && *s2++ != 0);
-    return true;
+    return 0;
 }
 
-bool KR_strcmp_letonly_r(char *s1, char *s2) {
+int KR_strcmp_letonly_r(char *s1, char *s2) {
     assert(s1 != nullptr);
     assert(s2 != nullptr);
 
@@ -229,22 +229,25 @@ bool KR_strcmp_letonly_r(char *s1, char *s2) {
         while (p1 >= s1 && !is_letter(*p1)) p1--;
         while (p2 >= s2 && !is_letter(*p2)) p2--;
 
+        if (p1 < s1 && p2 < s2) {
+            return 0;
+        }
         if (p1 < s1) {
-            return true;
+            return -1;
         }
         if (p2 < s2) {
-            return false;
+            return 1;
         }
         
         if (*p1 < *p2) {
-            return true;
+            return -1;
         }
         else if (*p1 > *p2) {
-            return false;
+            return 1;
         }
     } while (true);
 
-    return true;
+    return 0;
 }
 
 void KR_strswap(char **s1, char **s2) {
