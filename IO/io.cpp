@@ -85,3 +85,15 @@ void fprintf_buff(FILE *ptrfileout, char *buff, int buff_size) {
         }
     }
 }
+
+int get_text_file(char ***text, char **buff, int *buff_size, const char *file_path) {
+    *buff_size = get_data_file(buff, file_path);
+
+    assert(buff != nullptr);
+
+    int text_size = buff_to_text(text, *buff, *buff_size);
+
+    assert(text != nullptr);
+
+    return text_size;
+}

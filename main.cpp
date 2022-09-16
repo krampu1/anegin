@@ -26,15 +26,12 @@ int main(int argc, char *argv[]) {
 
     get_file_name_from_flug(argc, argv, &file_out_path);
 
-    char *buff = nullptr;
-    int buff_size = get_data_file(&buff, file_path);
-
-    assert(buff != nullptr);
-
+    int   buff_size = 0;
+    char *buff  = nullptr;
     char **text = nullptr;
 
-    int text_size = buff_to_text(&text, buff, buff_size);
-
+    int text_size = get_text_file(&text, &buff, &buff_size, file_path);
+    
     KR_qsort(text, text_size, sizeof(char*), (int (*)(const void*, const void*))str_cmp);
     
     char *file_out = (char *) calloc(KR_strlen(file_path) + 5, sizeof(char));
