@@ -56,15 +56,6 @@ int main(int argc, char *argv[]) {
 
     fprintf(ptrfileout, "------------------------------------------source text-----------------------------------------\n");
 
-    for (int i = 0; i < buff_size; i++) {
-        if (buff[i] == '\0') {
-            if (buff[i + 1] != '\0') {
-                fprintf(ptrfileout, "\n");
-            }
-        }
-        else {
-            fprintf(ptrfileout, "%c", buff[i]);
-        }
-    }
+    fprintf_buff(ptrfileout, buff, buff_size);
     
 }

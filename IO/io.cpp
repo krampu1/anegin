@@ -72,3 +72,16 @@ void get_file_name_from_flug(int argc, char *argv[], char **file_path) {
         }
     }
 }
+
+void fprintf_buff(FILE *ptrfileout, char *buff, int buff_size) {
+    for (int i = 0; i < buff_size; i++) {
+        if (buff[i] == '\0') {
+            if (buff[i + 1] != '\0') {
+                fprintf(ptrfileout, "\n");
+            }
+        }
+        else {
+            fprintf(ptrfileout, "%c", buff[i]);
+        }
+    }
+}
