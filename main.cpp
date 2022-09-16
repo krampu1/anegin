@@ -11,22 +11,22 @@ int str_cmp(const void *a, const void *b) {
     assert(a != nullptr);
     assert(b != nullptr);
 
-    return KR_strcmp_letonly(*((char **)a), *((char **)b));
+    return KR_strcmp_letonly((*((KR_string *)a)).ptr, (*((KR_string *)b)).ptr);
 }
 
 int str_cmp_r(const void *a, const void *b) {
     assert(a != nullptr);
     assert(b != nullptr);
     
-    return KR_strcmp_letonly_rev(*((char **)a), *((char **)b));
+    return KR_strcmp_letonly_rev((*((KR_string *)a)), (*((KR_string *)b)));
 }
 
-void fprintf_text(FILE *ptrfileout, char **text, size_t text_size) {
+void fprintf_text(FILE *ptrfileout, KR_string *text, size_t text_size) {
     assert(ptrfileout != nullptr);
     assert(text != nullptr);
 
     for (size_t i = 0; i < text_size; i++) {
-        fprintf(ptrfileout, "%s\n", text[i]);
+        fprintf(ptrfileout, "%s\n", text[i].ptr);
     }
 }
 
@@ -39,14 +39,14 @@ int main(int argc, char *argv[]) {
 
     size_t buff_size = 0;
     char *buff  = nullptr;
-    char **text = nullptr;
+    KR_string *text = nullptr;
 
     size_t text_size = get_text_file(&text, &buff, &buff_size, file_path);
 
     assert(text != nullptr);
     assert(buff != nullptr);
 
-    KR_qsort(text, text_size, sizeof(char*), (int (*)(const void*, const void*))str_cmp);
+    KR_qsort(text, text_size, sizeof(KR_string), (int (*)(const void*, const void*))str_cmp);
     
     char *file_out = (char *) calloc(KR_strlen(file_path) + 5, sizeof(char));
 
@@ -64,7 +64,7 @@ int main(int argc, char *argv[]) {
 
     fprintf(ptrfileout, "------------------------------begin string reverse comporator sort----------------------------\n");
 
-    KR_qsort(text, text_size, sizeof(char*), (int (*)(const void*, const void*))str_cmp_r);
+    KR_qsort(text, text_size, sizeof(KR_string), (int (*)(const void*, const void*))str_cmp_r);
 
     fprintf_text(ptrfileout, text, text_size);
 

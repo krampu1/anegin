@@ -207,22 +207,18 @@ int KR_strcmp_letonly(char *s1, char *s2) {
     return 0;
 }
 
-int KR_strcmp_letonly_rev(char *s1, char *s2) {
+int KR_strcmp_letonly_rev(KR_string a1, KR_string a2) {
+    char *s1 = a1.ptr;
+    char *s2 = a2.ptr;
+
     assert(s1 != nullptr);
     assert(s2 != nullptr);
 
-    char *p1 = s1;
-    char *p2 = s2;
+    char *p1 = a1.ptr_end;
+    char *p2 = a2.ptr_end;
 
     assert(p1 != nullptr);
     assert(p2 != nullptr);
-
-    while (*p1 != 0) {
-        p1++;
-    }
-    while (*p2 != 0) {
-        p2++;
-    }
 
     do {
         p1--;p2--;

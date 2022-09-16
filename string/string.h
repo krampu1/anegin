@@ -5,6 +5,11 @@
 #include <stdlib.h>
 #include <assert.h>
 
+struct KR_string {
+    char *ptr = nullptr;
+    char *ptr_end = nullptr;
+};
+
 int KR_puts(const char *str);
 
       char * KR_strchr(      char *str, int ch);
@@ -36,7 +41,7 @@ bool is_letter(char ch);
 
 int KR_strcmp_letonly(char *s1, char *s2);
 
-int KR_strcmp_letonly_rev(char *s1, char *s2);
+int KR_strcmp_letonly_rev(KR_string a1, KR_string a2);
 
 void KR_strswap(char **s1, char **s2);
 

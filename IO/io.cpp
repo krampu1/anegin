@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>
+#include "../string/string.h"
 #include "io.h"
 #include <string.h>
 #include <assert.h>
@@ -38,7 +39,7 @@ size_t get_data_file(char **buff, const char *file_path) {
     return file_size;
 }
 
-size_t buff_to_text(char ***text, char *buff, size_t buff_size) {
+size_t buff_to_text(KR_string **text, char *buff, size_t buff_size) {
     assert(text != nullptr);
     assert(buff != nullptr);
 
@@ -49,24 +50,39 @@ size_t buff_to_text(char ***text, char *buff, size_t buff_size) {
             text_size++;
         }
     }
-
-    *text = (char **)calloc(text_size + 1, sizeof(char *));
+    
+    *text = (KR_string *)calloc(text_size + 1, sizeof(KR_string ));
     
     assert(text != nullptr);
 
-    (*text)[text_size] = nullptr;
+    ((*text)[text_size]).ptr = nullptr;
 
-    (*text)[0] = buff;
-
+    (*text)[0].ptr = buff;
+    
     size_t ptr = 1;
-    for (size_t i = 0; i < buff_size; i++) {
+
+    KR_string *ptr_to_last = *text;
+
+    for (size_t i = 0; i < buff_size + 1; i++) {
+        if (ptr_to_last != nullptr && (buff[i] == '\r' || buff[i] == '\n' || buff[i] == 0)) {
+            (*ptr_to_last).ptr_end = &buff[i];
+
+            ptr_to_last = nullptr;
+        }
+
         if (buff[i] == '\r') {
             buff[i] = 0;
         }
         if (buff[i - 1] == '\n') {
             buff[i - 1] = 0;
-            (*text)[ptr++] = &buff[i];
+
+            ptr_to_last = &((*text)[ptr]);
+
+            (*text)[ptr++].ptr = &buff[i];
         }
+    }
+    for (size_t i = 0; i < text_size; i++) {
+        assert((*text)[i].ptr != nullptr);
     }
 
     return text_size;
@@ -99,7 +115,7 @@ void fprintf_buff(FILE *ptrfileout, char *buff, size_t buff_size) {
     }
 }
 
-size_t get_text_file(char ***text, char **buff, size_t *buff_size, const char *file_path) {
+size_t get_text_file(KR_string **text, char **buff, size_t *buff_size, const char *file_path) {
     assert(text      != nullptr);
     assert(buff      != nullptr);
     assert(buff_size != nullptr);
