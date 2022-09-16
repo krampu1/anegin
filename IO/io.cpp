@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 #include "io.h"
+#include <string.h>
 #include <assert.h>
 
 int get_data_file(char **buff, const char *file_path) {
@@ -59,4 +60,15 @@ int buff_to_text(char ***text, char *buff, int buff_size) {
     }
 
     return text_size;
+}
+
+void get_file_name_from_flug(int argc, char *argv[], char **file_path) {
+    //если есть название файла ввода то флаг -f точно не последний, значит перебирать argc - 1 безсмысленно
+    //а так же это поможет избежать ошибки если флаг указали последним
+    for (int i = 0; i < argc - 1; i++) {
+        if (!strncmp(argv[i], "-f", 3)) {
+            *file_path = argv[i + 1];
+            break;
+        }
+    }
 }

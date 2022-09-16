@@ -12,7 +12,7 @@ int str_cmp(const void *a, const void *b) {
 }
 
 int str_cmp_r(const void *a, const void *b) {
-    return KR_strcmp_letonly_r(*((char **)a), *((char **)b));
+    return KR_strcmp_letonly_rev(*((char **)a), *((char **)b));
 }
 
 void fprintf_text(FILE *ptrfileout, char **text, int text_size) {
@@ -21,7 +21,11 @@ void fprintf_text(FILE *ptrfileout, char **text, int text_size) {
     }
 }
 
-int main() {
+int main(int argc, char *argv[]) {
+    char *file_out_path = (char *)file_path;
+
+    get_file_name_from_flug(argc, argv, &file_out_path);
+
     char *buff = nullptr;
     int buff_size = get_data_file(&buff, file_path);
 
@@ -32,8 +36,12 @@ int main() {
     int text_size = buff_to_text(&text, buff, buff_size);
 
     KR_qsort(text, text_size, sizeof(char*), (int (*)(const void*, const void*))str_cmp);
+    
+    char *file_out = (char *) calloc(KR_strlen(file_path) + 5, sizeof(char));
+    KR_strcat(file_out, file_out_path);
+    KR_strcat(file_out, ".out");
 
-    FILE * ptrfileout = fopen("resources/gamletsort.txt", "wb");
+    FILE * ptrfileout = fopen(file_out, "wb");
 
     assert(ptrfileout != nullptr);
 
