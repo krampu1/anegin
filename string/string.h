@@ -36,6 +36,8 @@ bool is_letter(char ch);
 
 bool KR_strcmp_letonly(char *s1, char *s2);
 
+bool KR_strcmp_letonly_r(char *s1, char *s2);
+
 void KR_strswap(char **s1, char **s2);
 
 #endif

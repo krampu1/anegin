@@ -207,6 +207,46 @@ bool KR_strcmp_letonly(char *s1, char *s2) {
     return true;
 }
 
+bool KR_strcmp_letonly_r(char *s1, char *s2) {
+    assert(s1 != nullptr);
+    assert(s2 != nullptr);
+
+    char *p1 = s1;
+    char *p2 = s2;
+
+    assert(p1 != nullptr);
+    assert(p2 != nullptr);
+
+    while (*p1 != 0) {
+        p1++;
+    }
+    while (*p2 != 0) {
+        p2++;
+    }
+
+    do {
+        p1--;p2--;
+        while (p1 >= s1 && !is_letter(*p1)) p1--;
+        while (p2 >= s2 && !is_letter(*p2)) p2--;
+
+        if (p1 < s1) {
+            return true;
+        }
+        if (p2 < s2) {
+            return false;
+        }
+        
+        if (*p1 < *p2) {
+            return true;
+        }
+        else if (*p1 > *p2) {
+            return false;
+        }
+    } while (true);
+
+    return true;
+}
+
 void KR_strswap(char **s1, char **s2) {
     assert(s1 != nullptr);
     assert(s1 != nullptr);
