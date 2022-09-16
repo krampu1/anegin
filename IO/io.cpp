@@ -6,6 +6,7 @@
 #include <assert.h>
 
 int get_data_file(char **buff, const char *file_path) {
+    assert(buff      != nullptr);
     assert(file_path != nullptr);
 
 
@@ -32,6 +33,9 @@ int get_data_file(char **buff, const char *file_path) {
 }
 
 int buff_to_text(char ***text, char *buff, int buff_size) {
+    assert(text != nullptr);
+    assert(buff != nullptr);
+
     int text_size = 1;
 
     for (int i = 0; i < buff_size; i++) {
@@ -74,6 +78,9 @@ void get_file_name_from_flug(int argc, char *argv[], char **file_path) {
 }
 
 void fprintf_buff(FILE *ptrfileout, char *buff, int buff_size) {
+    assert(ptrfileout != nullptr);
+    assert(buff       != nullptr);
+
     for (int i = 0; i < buff_size; i++) {
         if (buff[i] == '\0') {
             if (buff[i + 1] != '\0') {
@@ -87,6 +94,10 @@ void fprintf_buff(FILE *ptrfileout, char *buff, int buff_size) {
 }
 
 int get_text_file(char ***text, char **buff, int *buff_size, const char *file_path) {
+    assert(text      != nullptr);
+    assert(buff      != nullptr);
+    assert(buff_size != nullptr);
+
     *buff_size = get_data_file(buff, file_path);
 
     assert(buff != nullptr);

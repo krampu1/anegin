@@ -8,14 +8,23 @@
 const char *file_path = "resources/gamlet.txt";
 
 int str_cmp(const void *a, const void *b) {
+    assert(a != nullptr);
+    assert(b != nullptr);
+
     return KR_strcmp_letonly(*((char **)a), *((char **)b));
 }
 
 int str_cmp_r(const void *a, const void *b) {
+    assert(a != nullptr);
+    assert(b != nullptr);
+    
     return KR_strcmp_letonly_rev(*((char **)a), *((char **)b));
 }
 
 void fprintf_text(FILE *ptrfileout, char **text, int text_size) {
+    assert(ptrfileout != nullptr);
+    assert(text != nullptr);
+    
     for (int i = 0; i < text_size; i++) {
         fprintf(ptrfileout, "%s\n", text[i]);
     }
@@ -26,15 +35,23 @@ int main(int argc, char *argv[]) {
 
     get_file_name_from_flug(argc, argv, &file_out_path);
 
+    assert(file_out_path != nullptr);
+
     int   buff_size = 0;
     char *buff  = nullptr;
     char **text = nullptr;
 
     int text_size = get_text_file(&text, &buff, &buff_size, file_path);
-    
+
+    assert(text != nullptr);
+    assert(buff != nullptr);
+
     KR_qsort(text, text_size, sizeof(char*), (int (*)(const void*, const void*))str_cmp);
     
     char *file_out = (char *) calloc(KR_strlen(file_path) + 5, sizeof(char));
+
+    assert(file_out != nullptr);
+
     KR_strcat(file_out, file_out_path);
     KR_strcat(file_out, ".out");
 
