@@ -4,8 +4,10 @@
 #include <cstdlib>
 #include "string/string.h"
 #include "sort/sort.h"
+#include <iostream>
+#include <string>
 
-const char *file_path = "resources/gamlet.txt";
+const char *file_path = "resources/onegin.txt";
 
 int str_cmp(const void *a, const void *b) {
     assert(a != nullptr);
@@ -31,6 +33,7 @@ void fprintf_text(FILE *ptrfileout, KR_string *text, size_t text_size) {
 }
 
 int main(int argc, char *argv[]) {
+
     const char *file_out_path = file_path;
 
     get_file_name_from_flug(&file_out_path, argc, argv);
@@ -71,5 +74,4 @@ int main(int argc, char *argv[]) {
     fprintf(ptrfileout, "------------------------------------------source text-----------------------------------------\n");
 
     fprintf_buff(ptrfileout, buff, buff_size);
-    
 }

@@ -186,6 +186,7 @@ int KR_strcmp(char *s1, char *s2) {
 bool is_letter(char ch) {
     return (('a' <= ch && ch <= 'z')
              || ('A' <= ch && ch <= 'Z')
+             || (192 <= (unsigned char)ch && (unsigned char)ch <= 255)
              || ch == 0); 
 }
 

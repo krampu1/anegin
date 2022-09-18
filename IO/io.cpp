@@ -8,7 +8,7 @@
 
 size_t get_file_size(FILE * ptr_file) {
     assert(ptr_file != nullptr);
-    
+
     struct stat fileinfo = {};
     fstat(fileno(ptr_file), &fileinfo);
 
@@ -24,8 +24,6 @@ size_t get_data_file(char **buff, const char *file_path) {
     assert(ptrFile != nullptr);
 
     size_t file_size = get_file_size(ptrFile);
-    
-    
 
     *buff = (char *)calloc(file_size + 2, sizeof(char));
 
@@ -34,9 +32,7 @@ size_t get_data_file(char **buff, const char *file_path) {
     fread(*buff, sizeof(char), file_size, ptrFile);
     (*buff)[file_size + 1] = (*buff)[file_size] = 0;
 
-
     fclose(ptrFile);
-
 
     return file_size;
 }
@@ -65,6 +61,8 @@ size_t buff_to_text(KR_string **text, char *buff, size_t buff_size) {
 
     KR_string *ptr_to_last = *text;
 
+    assert(ptr_to_last != nullptr);
+
     for (size_t i = 0; i < buff_size + 1; i++) {
         if (ptr_to_last != nullptr && (buff[i] == '\r' || buff[i] == '\n' || buff[i] == 0)) {
             (*ptr_to_last).ptr_end = &buff[i];
@@ -75,7 +73,7 @@ size_t buff_to_text(KR_string **text, char *buff, size_t buff_size) {
         if (buff[i] == '\r') {
             buff[i] = 0;
         }
-        if (buff[i - 1] == '\n') {
+        if (i > 0 && buff[i - 1] == '\n') {
             buff[i - 1] = 0;
 
             ptr_to_last = &((*text)[ptr]);
@@ -83,16 +81,21 @@ size_t buff_to_text(KR_string **text, char *buff, size_t buff_size) {
             (*text)[ptr++].ptr = &buff[i];
         }
     }
+    if (ptr_to_last != nullptr) {
+        (*ptr_to_last).ptr_end = &buff[buff_size];
+    }
+
     for (size_t i = 0; i < text_size; i++) {
-        assert((*text)[i].ptr != nullptr);
+        assert((*text)[i].ptr     != nullptr);
+        assert((*text)[i].ptr_end != nullptr);
     }
 
     return text_size;
 }
 
 void get_file_name_from_flug(const char **file_path, int argc, char *argv[]) {
-    //ÐµÑÐ»Ð¸ ÐµÑÑ‚ÑŒ Ð½Ð°Ð·Ð²Ð°Ð½Ð¸Ðµ Ñ„Ð°Ð¹Ð»Ð° Ð²Ð²Ð¾Ð´Ð° Ñ‚Ð¾ Ñ„Ð»Ð°Ð³ -f Ñ‚Ð¾Ñ‡Ð½Ð¾ Ð½Ðµ Ð¿Ð¾ÑÐ»ÐµÐ´Ð½Ð¸Ð¹, Ð·Ð½Ð°Ñ‡Ð¸Ñ‚ Ð¿ÐµÑ€ÐµÐ±Ð¸Ñ€Ð°Ñ‚ÑŒ argc - 1 Ð±ÐµÐ·ÑÐ¼Ñ‹ÑÐ»ÐµÐ½Ð½Ð¾
-    //Ð° Ñ‚Ð°Ðº Ð¶Ðµ ÑÑ‚Ð¾ Ð¿Ð¾Ð¼Ð¾Ð¶ÐµÑ‚ Ð¸Ð·Ð±ÐµÐ¶Ð°Ñ‚ÑŒ Ð¾ÑˆÐ¸Ð±ÐºÐ¸ ÐµÑÐ»Ð¸ Ñ„Ð»Ð°Ð³ ÑƒÐºÐ°Ð·Ð°Ð»Ð¸ Ð¿Ð¾ÑÐ»ÐµÐ´Ð½Ð¸Ð¼
+    //åñëè åñòü íàçâàíèå ôàéëà ââîäà òî ôëàã -f òî÷íî íå ïîñëåäíèé, çíà÷èò ïåðåáèðàòü argc - 1 áåçñìûñëåííî
+    //à òàê æå ýòî ïîìîæåò èçáåæàòü îøèáêè åñëè ôëàã óêàçàëè ïîñëåäíèì
     for (size_t i = 0; i < argc - 1; i++) {
         if (!strncmp(argv[i], "-f", 3)) {
             *file_path = argv[i + 1];
