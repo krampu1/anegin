@@ -33,7 +33,6 @@ void fprintf_text(FILE *ptrfileout, KR_string *text, size_t text_size) {
 }
 
 int main(int argc, char *argv[]) {
-
     setlocale(LC_ALL, "Russian");
 
     const char *file_out_path = file_path;
@@ -66,7 +65,6 @@ int main(int argc, char *argv[]) {
 
     fprintf_text(ptrfileout, text, text_size);
     
-
     fprintf(ptrfileout, "------------------------------begin string reverse comporator sort----------------------------\n");
 
     KR_qsort(text, text_size, sizeof(KR_string), (int (*)(const void*, const void*))str_cmp_r);
