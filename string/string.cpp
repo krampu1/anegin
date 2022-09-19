@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "string.h"
 #include <assert.h>
+#include <ctype.h>
 
 int KR_puts(const char *s) {
     assert(s != nullptr);
@@ -147,8 +148,7 @@ char * KR_fgets(char *s, int n, FILE *stream) {
 char * KR_strdup(char *s) {
     assert(s != nullptr);
 
-    char *p = nullptr;
-    p = (char *) calloc(KR_strlen(s) + 1, sizeof(char));
+    char *p = (char *) calloc(KR_strlen(s) + 1, sizeof(*p));
 
     KR_strcpy(p, s);
 
@@ -183,29 +183,20 @@ int KR_strcmp(char *s1, char *s2) {
     return 0;
 }
 
-bool is_letter(char ch) {
-    return (('a' <= ch && ch <= 'z')
-             || ('A' <= ch && ch <= 'Z')
-             || (192 <= (unsigned char)ch && (unsigned char)ch <= 255) //windows 1251 поддерживаемая кодировка русских симвалов
-             || ch == 0); 
-}
-
 int KR_strcmp_letonly(char *s1, char *s2) {
     assert(s1 != nullptr);
     assert(s2 != nullptr);
+
+    int dif = 0;
     
     do {
-        while (!is_letter(*s1)) s1++;
-        while (!is_letter(*s2)) s2++;
+        while (!isalpha(*s1) && *s1 != 0) s1++;
+        while (!isalpha(*s2) && *s2 != 0) s2++;
 
-        if (*s1 < *s2) {
-            return -1;
-        }
-        else if (*s1 > *s2) {
-            return +1;
-        }
-    } while (*s1++ != 0 && *s2++ != 0);
-    return 0;
+        dif = ((int)((unsigned int)*s1) - (int)((unsigned int)*s2));
+    } while (*s1++ != 0 && *s2++ != 0 && dif == 0);
+
+    return dif;
 }
 
 int KR_strcmp_letonly_rev(KR_string a1, KR_string a2) {
@@ -221,11 +212,20 @@ int KR_strcmp_letonly_rev(KR_string a1, KR_string a2) {
     assert(p1 != nullptr);
     assert(p2 != nullptr);
 
-    do {
-        p1--;p2--;
-        while (p1 >= s1 && !is_letter(*p1)) p1--;
-        while (p2 >= s2 && !is_letter(*p2)) p2--;
+    int dif = 0;
 
+    while (p1 >= s1 && !isalpha(*p1)) p1--;
+    while (p2 >= s2 && !isalpha(*p2)) p2--;
+
+    while (dif == 0 && p1 > s1 && p2 > s2) {
+        dif = (int)((unsigned int)*p1) - (int)((unsigned int)*p2);
+
+        p1--; p2--;
+        while (p1 >= s1 && !isalpha(*p1)) p1--;
+        while (p2 >= s2 && !isalpha(*p2)) p2--;
+    }
+    
+    if (dif == 0) {
         if (p1 < s1 && p2 < s2) {
             return 0;
         }
@@ -235,16 +235,8 @@ int KR_strcmp_letonly_rev(KR_string a1, KR_string a2) {
         if (p2 < s2) {
             return 1;
         }
-        
-        if (*p1 < *p2) {
-            return -1;
-        }
-        else if (*p1 > *p2) {
-            return 1;
-        }
-    } while (true);
-
-    return 0;
+    }
+    return dif;
 }
 
 void KR_strswap(char **s1, char **s2) {

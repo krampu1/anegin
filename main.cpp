@@ -34,6 +34,8 @@ void fprintf_text(FILE *ptrfileout, KR_string *text, size_t text_size) {
 
 int main(int argc, char *argv[]) {
 
+    setlocale(LC_ALL, "Russian");
+
     const char *file_out_path = file_path;
 
     get_file_name_from_flug(&file_out_path, argc, argv);

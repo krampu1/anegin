@@ -37,8 +37,6 @@ char * KR_strdup(const char *s);
 
 int KR_strcmp(char *s1, char *s2);
 
-bool is_letter(char ch);
-
 int KR_strcmp_letonly(char *s1, char *s2);
 
 int KR_strcmp_letonly_rev(KR_string a1, KR_string a2);

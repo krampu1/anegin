@@ -25,7 +25,7 @@ size_t get_data_file(char **buff, const char *file_path) {
 
     size_t file_size = get_file_size(ptrFile);
 
-    *buff = (char *)calloc(file_size + 2, sizeof(char));
+    *buff = (char *)calloc(file_size + 2, sizeof(**buff));
 
     assert(buff != nullptr);
 
@@ -49,7 +49,7 @@ size_t buff_to_text(KR_string **text, char *buff, size_t buff_size) {
         }
     }
     
-    *text = (KR_string *)calloc(text_size + 1, sizeof(KR_string ));
+    *text = (KR_string *)calloc(text_size + 1, sizeof(**text));
     
     assert(text != nullptr);
 
